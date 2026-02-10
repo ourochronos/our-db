@@ -24,6 +24,10 @@ dependencies = [
     "pydantic-settings>=2.0.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/ourochronos/our-db"
+Repository = "https://github.com/ourochronos/our-db"
+
 [project.optional-dependencies]
 async = [
     "asyncpg>=0.29.0",
