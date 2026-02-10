@@ -1,8 +1,8 @@
-"""Shared test fixtures for oro-db."""
+"""Shared test fixtures for our-db."""
 
 import pytest
 
-from oro_db.config import clear_config_cache
+from our_db.config import clear_config_cache
 
 
 @pytest.fixture(autouse=True)

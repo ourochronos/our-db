@@ -1,4 +1,4 @@
-"""Database connection utilities for oro-db.
+"""Database connection utilities for our-db.
 
 Provides both synchronous and asynchronous database access:
 
@@ -337,7 +337,7 @@ class AsyncConnectionPool:
     async def _ensure_pool(self) -> Any:
         """Ensure pool is initialized, creating it if necessary."""
         if not ASYNCPG_AVAILABLE:
-            raise DatabaseError("asyncpg not installed. Install with: pip install oro-db[async]")
+            raise DatabaseError("asyncpg not installed. Install with: pip install our-db[async]")
 
         if self._pool is None:
             async with self._pool_lock:

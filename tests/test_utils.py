@@ -1,6 +1,6 @@
-"""Tests for oro_db.utils."""
+"""Tests for our_db.utils."""
 
-from oro_db.utils import escape_ilike
+from our_db.utils import escape_ilike
 
 
 class TestEscapeIlike:

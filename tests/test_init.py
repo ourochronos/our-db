@@ -1,6 +1,6 @@
-"""Smoke tests for oro-db package."""
+"""Smoke tests for our-db package."""
 
-from oro_db import __version__
+from our_db import __version__
 
 
 def test_version_is_string():

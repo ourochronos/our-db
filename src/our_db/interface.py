@@ -1,10 +1,10 @@
-"""Public interface for oro-db.
+"""Public interface for our-db.
 
 Re-exports the primary types and functions that consumers should use.
 """
 
-from oro_db.config import CoreSettings, get_config, set_config
-from oro_db.db import (
+from our_db.config import CoreSettings, get_config, set_config
+from our_db.db import (
     AsyncConnectionPool,
     ConnectionPool,
     async_cursor,
@@ -12,7 +12,7 @@ from oro_db.db import (
     get_cursor,
     put_connection,
 )
-from oro_db.exceptions import (
+from our_db.exceptions import (
     ConfigError,
     ConflictError,
     DatabaseError,
@@ -20,7 +20,7 @@ from oro_db.exceptions import (
     OroDbError,
     ValidationError,
 )
-from oro_db.migrations import MigrationRunner
+from our_db.migrations import MigrationRunner
 
 __all__ = [
     # Config

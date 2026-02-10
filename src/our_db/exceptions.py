@@ -1,4 +1,4 @@
-"""Exception hierarchy for oro-db.
+"""Exception hierarchy for our-db.
 
 Provides specific exception types for different error categories,
 enabling better error handling and clearer error messages.
@@ -10,9 +10,9 @@ from typing import Any
 
 
 class OroDbError(Exception):
-    """Base exception for all oro-db errors.
+    """Base exception for all our-db errors.
 
-    All oro-db-specific exceptions should inherit from this class.
+    All our-db-specific exceptions should inherit from this class.
     """
 
     def __init__(self, message: str, details: dict[str, Any] | None = None):

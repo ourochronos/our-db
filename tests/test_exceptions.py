@@ -1,8 +1,8 @@
-"""Tests for oro_db.exceptions."""
+"""Tests for our_db.exceptions."""
 
 import pytest
 
-from oro_db.exceptions import (
+from our_db.exceptions import (
     ConfigError,
     ConflictError,
     DatabaseError,

@@ -1,20 +1,20 @@
-# oro-db
+# our-db
 
 Database connectivity, configuration, and migration brick. Part of the [ourochronos](https://github.com/ourochronos) ecosystem.
 
 ## Installation
 
 ```bash
-pip install oro-db
+pip install our-db
 
 # With async support
-pip install oro-db[async]
+pip install our-db[async]
 ```
 
 ## Usage
 
 ```python
-from oro_db import get_cursor, get_config
+from our_db import get_cursor, get_config
 
 # Database access
 with get_cursor() as cur:
@@ -29,7 +29,7 @@ print(config.db_host, config.db_port)
 ### Async
 
 ```python
-from oro_db import async_cursor
+from our_db import async_cursor
 
 async with async_cursor() as conn:
     rows = await conn.fetch("SELECT * FROM my_table")
@@ -38,7 +38,7 @@ async with async_cursor() as conn:
 ### Migrations
 
 ```python
-from oro_db import MigrationRunner
+from our_db import MigrationRunner
 
 runner = MigrationRunner(migrations_dir="./migrations")
 runner.up()        # Apply pending

@@ -1,10 +1,10 @@
-"""Tests for oro_db.migrations."""
+"""Tests for our_db.migrations."""
 
 from unittest.mock import MagicMock
 
 import pytest
 
-from oro_db.migrations import MigrationRunner
+from our_db.migrations import MigrationRunner
 
 
 class TestMigrationRunner:

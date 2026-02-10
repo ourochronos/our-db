@@ -1,4 +1,4 @@
-"""Core utilities for oro-db."""
+"""Core utilities for our-db."""
 
 
 def escape_ilike(s: str) -> str:

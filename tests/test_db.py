@@ -1,4 +1,4 @@
-"""Tests for oro_db.db.
+"""Tests for our_db.db.
 
 These tests mock psycopg2 to avoid requiring a real database connection.
 """
@@ -7,13 +7,13 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from oro_db.db import (
+from our_db.db import (
     ConnectionPool,
     generate_id,
     get_connection_params,
     get_pool_config,
 )
-from oro_db.exceptions import DatabaseError
+from our_db.exceptions import DatabaseError
 
 
 class TestGenerateId:
@@ -80,7 +80,7 @@ class TestConnectionPool:
         assert "min_connections" in stats
         assert "max_connections" in stats
 
-    @patch("oro_db.db.psycopg2_pool.ThreadedConnectionPool")
+    @patch("our_db.db.psycopg2_pool.ThreadedConnectionPool")
     def test_get_connection_creates_pool(self, mock_pool_cls):
         mock_pool = MagicMock()
         mock_conn = MagicMock()
@@ -92,7 +92,7 @@ class TestConnectionPool:
         assert conn is mock_conn
         mock_pool_cls.assert_called_once()
 
-    @patch("oro_db.db.psycopg2_pool.ThreadedConnectionPool")
+    @patch("our_db.db.psycopg2_pool.ThreadedConnectionPool")
     def test_put_connection(self, mock_pool_cls):
         mock_pool = MagicMock()
         mock_conn = MagicMock()
@@ -104,7 +104,7 @@ class TestConnectionPool:
         pool.put_connection(mock_conn)
         mock_pool.putconn.assert_called_once_with(mock_conn)
 
-    @patch("oro_db.db.psycopg2_pool.ThreadedConnectionPool")
+    @patch("our_db.db.psycopg2_pool.ThreadedConnectionPool")
     def test_close_all(self, mock_pool_cls):
         mock_pool = MagicMock()
         mock_pool.getconn.return_value = MagicMock()
@@ -115,7 +115,7 @@ class TestConnectionPool:
         pool.close_all()
         mock_pool.closeall.assert_called_once()
 
-    @patch("oro_db.db.psycopg2_pool.ThreadedConnectionPool")
+    @patch("our_db.db.psycopg2_pool.ThreadedConnectionPool")
     def test_get_stats_initialized(self, mock_pool_cls):
         mock_pool = MagicMock()
         mock_pool.getconn.return_value = MagicMock()
@@ -126,7 +126,7 @@ class TestConnectionPool:
         stats = pool.get_stats()
         assert stats["initialized"] is True
 
-    @patch("oro_db.db.psycopg2_pool.ThreadedConnectionPool")
+    @patch("our_db.db.psycopg2_pool.ThreadedConnectionPool")
     def test_get_connection_none_raises(self, mock_pool_cls):
         mock_pool = MagicMock()
         mock_pool.getconn.return_value = None
@@ -138,14 +138,14 @@ class TestConnectionPool:
 
 
 class TestGetCursor:
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_get_cursor_yields_cursor(self, mock_pool):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
         mock_conn.cursor.return_value = mock_cursor
         mock_pool.get_connection.return_value = mock_conn
 
-        from oro_db.db import get_cursor
+        from our_db.db import get_cursor
 
         with get_cursor() as cur:
             assert cur is mock_cursor
@@ -154,14 +154,14 @@ class TestGetCursor:
         mock_cursor.close.assert_called_once()
         mock_pool.put_connection.assert_called_once_with(mock_conn)
 
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_get_cursor_no_dict(self, mock_pool):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
         mock_conn.cursor.return_value = mock_cursor
         mock_pool.get_connection.return_value = mock_conn
 
-        from oro_db.db import get_cursor
+        from our_db.db import get_cursor
 
         with get_cursor(dict_cursor=False) as cur:
             assert cur is mock_cursor
@@ -170,12 +170,12 @@ class TestGetCursor:
 
 
 class TestGetConnectionContext:
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_yields_connection(self, mock_pool):
         mock_conn = MagicMock()
         mock_pool.get_connection.return_value = mock_conn
 
-        from oro_db.db import get_connection_context
+        from our_db.db import get_connection_context
 
         with get_connection_context() as conn:
             assert conn is mock_conn
@@ -185,7 +185,7 @@ class TestGetConnectionContext:
 
 
 class TestInitSchema:
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_init_schema_reads_files(self, mock_pool, tmp_path):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
@@ -196,13 +196,13 @@ class TestInitSchema:
         schema_dir.mkdir()
         (schema_dir / "schema.sql").write_text("CREATE TABLE test (id INT);")
 
-        from oro_db.db import init_schema
+        from our_db.db import init_schema
 
         init_schema(schema_dir)
         mock_cursor.execute.assert_called()
         mock_conn.commit.assert_called()
 
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_init_schema_custom_files(self, mock_pool, tmp_path):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
@@ -213,12 +213,12 @@ class TestInitSchema:
         schema_dir.mkdir()
         (schema_dir / "custom.sql").write_text("SELECT 1;")
 
-        from oro_db.db import init_schema
+        from our_db.db import init_schema
 
         init_schema(schema_dir, schema_files=["custom.sql"])
         mock_cursor.execute.assert_called()
 
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_init_schema_skips_missing_files(self, mock_pool, tmp_path):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
@@ -229,7 +229,7 @@ class TestInitSchema:
         schema_dir.mkdir()
         # No files created
 
-        from oro_db.db import init_schema
+        from our_db.db import init_schema
 
         init_schema(schema_dir)
         mock_cursor.execute.assert_not_called()
@@ -237,7 +237,7 @@ class TestInitSchema:
 
 
 class TestCountRows:
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_count_rows_with_allowlist(self, mock_pool):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
@@ -245,19 +245,19 @@ class TestCountRows:
         mock_cursor.fetchone.side_effect = [{"table_name": "users"}, {"count": 42}]
         mock_pool.get_connection.return_value = mock_conn
 
-        from oro_db.db import count_rows
+        from our_db.db import count_rows
 
         result = count_rows("users", valid_tables=frozenset(["users", "orders"]))
         assert result == 42
 
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_count_rows_rejects_unlisted_table(self, mock_pool):
-        from oro_db.db import count_rows
+        from our_db.db import count_rows
 
         with pytest.raises(ValueError, match="not in allowlist"):
             count_rows("secret_table", valid_tables=frozenset(["users"]))
 
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_count_rows_no_allowlist(self, mock_pool):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
@@ -265,12 +265,12 @@ class TestCountRows:
         mock_cursor.fetchone.side_effect = [{"table_name": "anything"}, {"count": 10}]
         mock_pool.get_connection.return_value = mock_conn
 
-        from oro_db.db import count_rows
+        from our_db.db import count_rows
 
         result = count_rows("anything")
         assert result == 10
 
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_count_rows_nonexistent_table(self, mock_pool):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
@@ -278,35 +278,35 @@ class TestCountRows:
         mock_cursor.fetchone.return_value = None
         mock_pool.get_connection.return_value = mock_conn
 
-        from oro_db.db import count_rows
+        from our_db.db import count_rows
 
         with pytest.raises(ValueError, match="does not exist"):
             count_rows("nonexistent")
 
 
 class TestCheckConnection:
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_check_connection_success(self, mock_pool):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
         mock_conn.cursor.return_value = mock_cursor
         mock_pool.get_connection.return_value = mock_conn
 
-        from oro_db.db import check_connection
+        from our_db.db import check_connection
 
         assert check_connection() is True
 
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_check_connection_failure(self, mock_pool):
         mock_pool.get_connection.side_effect = DatabaseError("connection failed")
 
-        from oro_db.db import check_connection
+        from our_db.db import check_connection
 
         assert check_connection() is False
 
 
 class TestTableExists:
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_table_exists_true(self, mock_pool):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
@@ -314,11 +314,11 @@ class TestTableExists:
         mock_cursor.fetchone.return_value = {"exists": True}
         mock_pool.get_connection.return_value = mock_conn
 
-        from oro_db.db import table_exists
+        from our_db.db import table_exists
 
         assert table_exists("my_table") is True
 
-    @patch("oro_db.db._pool")
+    @patch("our_db.db._pool")
     def test_table_exists_false(self, mock_pool):
         mock_conn = MagicMock()
         mock_cursor = MagicMock()
@@ -326,6 +326,6 @@ class TestTableExists:
         mock_cursor.fetchone.return_value = {"exists": False}
         mock_pool.get_connection.return_value = mock_conn
 
-        from oro_db.db import table_exists
+        from our_db.db import table_exists
 
         assert table_exists("nonexistent") is False

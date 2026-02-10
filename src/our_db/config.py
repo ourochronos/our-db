@@ -1,10 +1,10 @@
-"""Core configuration - centralized config for oro-db.
+"""Core configuration - centralized config for our-db.
 
 All environment-based configuration should flow through this module.
 This provides a single source of truth and consistent defaults.
 
 Usage:
-    from oro_db import get_config
+    from our_db import get_config
     config = get_config()
 
     # Access settings

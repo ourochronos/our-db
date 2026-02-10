@@ -1,9 +1,9 @@
-"""Tests for oro_db.config."""
+"""Tests for our_db.config."""
 
 import os
 from unittest.mock import patch
 
-from oro_db.config import CoreSettings, clear_config_cache, get_config, set_config
+from our_db.config import CoreSettings, clear_config_cache, get_config, set_config
 
 
 class TestCoreSettings:

@@ -1,4 +1,4 @@
-"""Migration framework for oro-db.
+"""Migration framework for our-db.
 
 Provides sequential, versioned database migrations with:
 - Auto-discovery from a migrations directory
@@ -91,7 +91,7 @@ class MigrationRunner:
     Args:
         migrations_dir: Path to directory containing NNN_description.py files.
         connection_factory: Callable that returns a psycopg2 connection.
-            If None, uses oro_db.db.get_connection / put_connection.
+            If None, uses our_db.db.get_connection / put_connection.
     """
 
     def __init__(
@@ -140,7 +140,7 @@ class MigrationRunner:
     @staticmethod
     def _load_module(file_path: Path) -> ModuleType:
         """Dynamically load a Python migration module."""
-        module_name = f"oro_migration_{file_path.stem}"
+        module_name = f"our_migration_{file_path.stem}"
         spec = importlib.util.spec_from_file_location(module_name, file_path)
         if spec is None or spec.loader is None:
             raise ValueError(f"Cannot load migration: {file_path}")

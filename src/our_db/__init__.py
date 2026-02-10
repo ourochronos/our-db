@@ -1,12 +1,12 @@
-"""oro-db: Database connectivity, configuration, and migration brick."""
+"""our-db: Database connectivity, configuration, and migration brick."""
 
 __version__ = "0.1.0"
 
 # Configuration
-from oro_db.config import CoreSettings, clear_config_cache, get_config, set_config
+from our_db.config import CoreSettings, clear_config_cache, get_config, set_config
 
 # Database connectivity (sync)
-from oro_db.db import (
+from our_db.db import (
     ASYNCPG_AVAILABLE,
     AsyncConnectionPool,
     ConnectionPool,
@@ -36,7 +36,7 @@ from oro_db.db import (
 )
 
 # Exceptions
-from oro_db.exceptions import (
+from our_db.exceptions import (
     ConfigError,
     ConflictError,
     DatabaseError,
@@ -46,7 +46,7 @@ from oro_db.exceptions import (
 )
 
 # Migrations
-from oro_db.migrations import (
+from our_db.migrations import (
     AppliedMigration,
     MigrationInfo,
     MigrationRunner,
@@ -54,7 +54,7 @@ from oro_db.migrations import (
 )
 
 # Utilities
-from oro_db.utils import escape_ilike
+from our_db.utils import escape_ilike
 
 __all__ = [
     "__version__",
